@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace GTAGameconfigUpdater
@@ -23,7 +24,7 @@ namespace GTAGameconfigUpdater
 
         private void InitializeComponent()
         {
-            Text = "GTA Gameconfig Updater";
+            Text = $"GTA Gameconfig Updater v{AppVersion.Current}";
             Font = SystemFonts.MessageBoxFont;
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
@@ -73,6 +74,41 @@ namespace GTAGameconfigUpdater
             mainPanel.Controls.Add(updateButton);
 
             Controls.Add(mainPanel);
+
+            var versionLabel = new Label
+            {
+                Text = $"v{AppVersion.Current}",
+                AutoSize = true,
+                ForeColor = Color.Gray,
+                Font = new Font(Font.FontFamily, Math.Max(Font.Size - 1.5f, 7f)),
+                Anchor = AnchorStyles.Bottom | AnchorStyles.Right
+            };
+            versionLabel.Location = new Point(
+                ClientSize.Width - versionLabel.PreferredWidth - 8,
+                ClientSize.Height - versionLabel.PreferredHeight - 4);
+
+            Controls.Add(versionLabel);
+            versionLabel.BringToFront();
+        }
+
+        protected override void OnShown(EventArgs e)
+        {
+            base.OnShown(e);
+            _ = CheckForUpdatesAsync();
+        }
+
+        private async Task CheckForUpdatesAsync()
+        {
+            var result = await UpdateChecker.CheckAsync();
+
+            if (IsDisposed || !IsHandleCreated)
+                return;
+
+            if (result is not { UpdateAvailable: true })
+                return;
+
+            using var dialog = new UpdateAvailableDialog(result.CurrentVersion, result.LatestVersion, result.ReleaseUrl);
+            dialog.ShowDialog(this);
         }
 
         private (GroupBox Group, TextBox PathTextBox) CreateFileSelectionGroup(string title, EventHandler onBrowse)

@@ -60,6 +60,30 @@ copied to and run from anywhere (a USB drive, another PC, etc.).
 > Note: because it's self-contained, the exe bundles its own copy of the .NET runtime, so
 > expect it to be roughly 60–100 MB rather than a few hundred KB.
 
+## Update checking
+
+[#update-checking](#update-checking)
+
+On startup, the app silently checks
+[`/releases/latest`](https://github.com/Geekmaxxer/GTA5SwitchGCUpdater/releases/latest)
+on GitHub and compares its tag to the running app's version (shown in small
+text in the bottom-right corner of the window, and in the title bar). That
+endpoint always resolves to the newest published, non-draft, non-prerelease
+release, so a beta/pre-release with a higher-looking version number is never
+picked up.
+
+If a newer version is found, a small dialog offers **Take me there** (opens
+the release page in your browser) or **I'm good** (dismisses it for the rest
+of that session). There's no persisted "don't ask again" - closing and
+reopening the app checks again.
+
+If you're maintaining this repo: bump `AppVersion.Current` in
+`AppVersion.cs` (and `<Version>` in the `.csproj`) every time you cut a new
+version, and make sure it's published as an actual GitHub **Release** with a
+matching tag - a bare git tag alone won't be picked up by `/releases/latest`.
+If the check fails for any reason (offline, rate-limited, no release
+published yet), it fails silently and the app works normally.
+
 ## Notes on compatibility
 
 - The application uses CodeWalker Core for RPF parsing and serialization
