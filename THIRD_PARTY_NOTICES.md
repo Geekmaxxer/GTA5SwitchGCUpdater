@@ -8,8 +8,3 @@ This project includes code from the following third-party sources:
 - **Source**: https://github.com/dexyfex/CodeWalker
 - **Use**: RPF and related file format parsing and serialization
 
-## NAudio
-
-- **License**: MIT
-- **Source**: https://github.com/naudio/NAudio
-- **Use**: Audio processing utilities
