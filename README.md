@@ -21,7 +21,7 @@ To **build** it yourself:
 
 ## Usage
 
-1. Launch `GTAGameconfigUpdater.exe`
+1. Launch `GTASwitchGCUpdater.exe`
 2. Click **Browse** next to "1. Select gameconfig.xml" and choose your gameconfig.xml file
 3. Click **Browse** next to "2. Select update.rpf file" and choose your GTA V Switch `update.rpf`
 4. Click **3. Update RPF**
@@ -34,8 +34,8 @@ To **build** it yourself:
 Clone with submodules to include CodeWalker Core:
 
 ```powershell
-git clone --recurse-submodules https://github.com/Geekmaxxer/gta-gameconfig-updater
-cd gta-gameconfig-updater\GTAGameconfigUpdater
+git clone --recurse-submodules https://github.com/Geekmaxxer/GTA5SwitchGCUpdater
+cd gta-gameconfig-updater\GTASwitchGCUpdater
 dotnet publish -c Release
 ```
 
@@ -59,6 +59,30 @@ copied to and run from anywhere (a USB drive, another PC, etc.).
 
 > Note: because it's self-contained, the exe bundles its own copy of the .NET runtime, so
 > expect it to be roughly 60–100 MB rather than a few hundred KB.
+
+## Update checking
+
+On startup, the app silently checks
+[`/releases/latest`](https://github.com/Geekmaxxer/GTA5SwitchGCUpdater/releases/latest)
+on GitHub and compares its tag to the running app's version (shown in small
+text in the status bar, and in the title bar). That endpoint always
+resolves to the newest published, non-draft, non-prerelease release, so a
+beta build with a higher-looking version number - like the earlier
+`v0.1-beta`/`v0.2-beta`/`v0.3-beta` tags - is never mistaken for the latest
+stable release.
+
+If a newer version is found, a small dialog offers **Take me there** (opens
+the release page in your browser) or **I'm good** (dismisses it for the
+rest of that session). There's no persisted "don't ask again" - closing and
+reopening the app checks again.
+
+If you're maintaining this repo: bump `AppVersion.Current` in
+`AppVersion.cs` (and `<Version>` in the `.csproj`) every time you cut a new
+version, and make sure it's published as an actual GitHub **Release** with
+the "pre-release" checkbox left unchecked - a bare git tag, or a release
+still flagged as pre-release, won't be picked up by `/releases/latest`. If
+the check fails for any reason (offline, rate-limited, no stable release
+published yet), it fails silently and the app works normally.
 
 ## Notes on compatibility
 
