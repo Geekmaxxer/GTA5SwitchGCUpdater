@@ -1,4 +1,4 @@
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     internal static class AppVersion
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using CodeWalker.Core.Utils;
 using CodeWalker.GameFiles;
 
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     public class GameconfigUpdater
     {

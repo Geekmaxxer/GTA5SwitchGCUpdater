@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     public sealed class UpdateAvailableDialog : Form
     {

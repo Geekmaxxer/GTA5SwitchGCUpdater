@@ -1,7 +1,7 @@
 using System;
 using System.Windows.Forms;
 
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     static class Program
     {

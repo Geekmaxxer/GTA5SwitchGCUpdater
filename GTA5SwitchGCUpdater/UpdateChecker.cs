@@ -5,7 +5,7 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     internal sealed class UpdateCheckResult
     {

@@ -3,7 +3,7 @@ using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GTAGameconfigUpdater
+namespace GTA5SwitchGCUpdater
 {
     public partial class MainForm : Form
     {
