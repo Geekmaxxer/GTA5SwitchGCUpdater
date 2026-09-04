@@ -25,7 +25,7 @@ To **build** it yourself:
 2. Click **Browse** next to "1. Select gameconfig.xml" and choose your gameconfig.xml file
 3. Click **Browse** next to "2. Select update.rpf file" and choose your GTA V Switch `update.rpf`
 4. Click **3. Update RPF**
-5. Choose a location to save the updated `update.rpf` file
+5. Choose a location other than where it is to save the updated `update.rpf` file
 6. Done! Replace your original `update.rpf` with the newly generated file
 - If you want to edit your GTA radio, the same method applies but with different .rpf files and your own music files. -> [gta-radio-editor](https://github.com/Geekmaxxer/gta-radio-editor)
 
