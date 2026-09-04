@@ -59,7 +59,6 @@ with no dependent DLLs, requires no .NET runtime installed on the target machine
 copied to and run from anywhere (a USB drive, another PC, etc.).
 
 > Note: because it's self-contained, the exe bundles its own copy of the .NET runtime, so
-> expect it to be roughly 60–100 MB rather than a few hundred KB.
 
 ## Update checking
 
