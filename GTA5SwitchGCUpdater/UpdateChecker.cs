@@ -9,10 +9,10 @@ namespace GTA5SwitchGCUpdater
 {
     internal sealed class UpdateCheckResult
     {
-        public required bool UpdateAvailable { get; init; }
-        public required string CurrentVersion { get; init; }
-        public required string LatestVersion { get; init; }
-        public required string ReleaseUrl { get; init; }
+        public bool UpdateAvailable { get; set; }
+        public string CurrentVersion { get; set; } = string.Empty;
+        public string LatestVersion { get; set; } = string.Empty;
+        public string ReleaseUrl { get; set; } = string.Empty;
     }
 
     internal static class UpdateChecker
@@ -40,13 +40,13 @@ namespace GTA5SwitchGCUpdater
                     return null;
                 }
 
-                await using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(true);
+                using var stream = await response.Content.ReadAsStreamAsync().ConfigureAwait(true);
                 using var doc = await JsonDocument.ParseAsync(stream).ConfigureAwait(true);
 
                 if (!doc.RootElement.TryGetProperty("tag_name", out var tagElement))
                     return null;
 
-                var latestTag = tagElement.GetString();
+                var latestTag = tagElement.GetString() ?? string.Empty;
                 if (string.IsNullOrWhiteSpace(latestTag))
                     return null;
 
@@ -55,7 +55,7 @@ namespace GTA5SwitchGCUpdater
                 {
                     var htmlUrl = htmlUrlElement.GetString();
                     if (!string.IsNullOrWhiteSpace(htmlUrl))
-                        releaseUrl = htmlUrl;
+                        releaseUrl = htmlUrl!;
                 }
 
                 return new UpdateCheckResult
@@ -75,7 +75,7 @@ namespace GTA5SwitchGCUpdater
         private static string NormalizeTag(string tag)
         {
             tag = tag.Trim();
-            return tag.StartsWith("v", StringComparison.OrdinalIgnoreCase) ? tag[1..] : tag;
+            return tag.StartsWith("v", StringComparison.OrdinalIgnoreCase) ? tag.Substring(1) : tag;
         }
 
         internal static bool IsNewerVersion(string currentRaw, string latestRaw)
@@ -100,7 +100,7 @@ namespace GTA5SwitchGCUpdater
                 return null;
 
             var text = match.Value;
-            if (!text.Contains('.'))
+            if (text.IndexOf('.') < 0)
                 text += ".0";
 
             return Version.TryParse(text, out var version) ? version : null;

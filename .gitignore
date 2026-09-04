@@ -39,3 +39,4 @@ obj/
 
 # CodeWalker vendor
 vendor/
+FodyWeavers.xsd

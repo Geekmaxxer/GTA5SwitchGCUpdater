@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFrameworks>net8.0-windows;net48</TargetFrameworks>
     <UseWindowsForms>true</UseWindowsForms>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
@@ -9,6 +9,8 @@
     <Version>0.1.1</Version>
     <AssemblyVersion>0.1.1.0</AssemblyVersion>
     <FileVersion>0.1.1.0</FileVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net8.0-windows'">
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>
     <SelfContained>true</SelfContained>
     <PublishSingleFile>true</PublishSingleFile>
@@ -23,7 +25,30 @@
     <EnableUnsafeUTF7Encoding>false</EnableUnsafeUTF7Encoding>
     <EnableUnsafeBinaryFormatterSerialization>false</EnableUnsafeBinaryFormatterSerialization>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PublishSingleFile>false</PublishSingleFile>
+    <SelfContained>false</SelfContained>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="../vendor/CodeWalker/CodeWalker.Core/CodeWalker.Core.csproj" />
   </ItemGroup>
+  <ItemGroup Condition="'$(TargetFramework)' == 'net48'">
+    <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.3" PrivateAssets="all" />
+    <PackageReference Include="System.Text.Json" Version="8.0.5" />
+    <Reference Include="System.Net.Http" />
+    <PackageReference Include="Fody" Version="6.9.3" PrivateAssets="all" />
+    <PackageReference Include="Costura.Fody" Version="6.2.0" PrivateAssets="all" />
+  </ItemGroup>
+<Target Name="PrepareNet48SingleExe">
+  <ItemGroup>
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\*.dll" />
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\$(AssemblyName).exe.config" />
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\$(AssemblyName).pdb" />
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\CodeWalker.Core.pdb" />
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\ShadersGen9Conversion.xml" />
+    <Net48SingleExeSidecars Include="$(MSBuildProjectDirectory)\bin\$(Configuration)\net48\strings.txt" />
+  </ItemGroup>
+  <Delete Files="@(Net48SingleExeSidecars)" />
+</Target>
+<Target Name="BuildNet48SingleExe" DependsOnTargets="Build;PrepareNet48SingleExe" />
 </Project>

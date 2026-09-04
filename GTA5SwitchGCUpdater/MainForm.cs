@@ -180,13 +180,15 @@ namespace GTA5SwitchGCUpdater
 
         private void UpdateRpf_Click(object? sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(selectedGameconfigPath))
+            var gameconfigPath = selectedGameconfigPath;
+            if (gameconfigPath is null || gameconfigPath.Length == 0)
             {
                 MessageBox.Show(this, "Please select a gameconfig.xml file first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (string.IsNullOrEmpty(selectedUpdateRpfPath))
+            var updateRpfPath = selectedUpdateRpfPath;
+            if (updateRpfPath is null || updateRpfPath.Length == 0)
             {
                 MessageBox.Show(this, "Please select an update.rpf file first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -209,7 +211,7 @@ namespace GTA5SwitchGCUpdater
                 Enabled = false;
 
                 var updater = new GameconfigUpdater();
-                updater.UpdateGameconfig(selectedUpdateRpfPath, selectedGameconfigPath, sfd.FileName);
+                updater.UpdateGameconfig(updateRpfPath, gameconfigPath, sfd.FileName);
 
                 MessageBox.Show(this, "Successfully updated update.rpf!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
