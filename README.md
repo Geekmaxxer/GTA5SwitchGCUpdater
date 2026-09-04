@@ -16,7 +16,7 @@ To **run** the published exe:
 
 To **build** it yourself:
 - Windows 10/11 x64
-- [.NET 4.8 SDK/Dev Pack]([https://dotnet.microsoft.com/download/dotnet/4.8](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48))
+- [.NET 4.8 SDK/Dev Pack](https://dotnet.microsoft.com/en-us/download/dotnet-framework/net48)
 - Git
 
 ## Usage
