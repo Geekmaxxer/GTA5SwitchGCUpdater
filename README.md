@@ -36,7 +36,12 @@ Clone with submodules to include CodeWalker Core:
 ```powershell
 git clone --recurse-submodules https://github.com/Geekmaxxer/GTA5SwitchGCUpdater
 cd gta-gameconfig-updater\GTASwitchGCUpdater
-dotnet publish -c Release
+dotnet restore .\GTA5SwitchGCUpdater\GTA5SwitchGCUpdater.csproj
+dotnet msbuild GTA5SwitchGCUpdater\GTA5SwitchGCUpdater.csproj `
+  -target:BuildNet48SingleExe `
+  -property:Configuration=Release `
+  -property:TargetFramework=net48
+
 ```
 
 The project file already sets `RuntimeIdentifier`, `SelfContained`, and `PublishSingleFile`,
@@ -46,11 +51,7 @@ portable, single-file `.exe`.
 The build will be output to:
 
 ```
-GTA5SwitchGCUpdater\bin\Release\net8.0-windows\win-x64\
-```
-or for the portable .exe
-```
-GTA5SwitchGCUpdater\bin\Release\net8.0-windows\win-x64\publish
+GTA5SwitchGCUpdater\bin\Release\net48
 ```
 
 `GTA5SwitchGCUpdater.exe` in that folder is the finished, portable app: it's a single file
